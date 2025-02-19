@@ -31,7 +31,7 @@ from bot.helper.listeners.tasks_listener import MirrorLeechListener
 from bot.helper.ext_utils.help_messages import MIRROR_HELP_MESSAGE, CLONE_HELP_MESSAGE, YT_HELP_MESSAGE, help_string
 from bot.helper.ext_utils.bulk_links import extract_bulk_links
 from bot.modules.gen_pyro_sess import get_decrypt_key
-from bot.helper.nordbotz_utils.react_nordbotz import send_react
+from bot.helper.Reaper_utils.react_Reaper import send_react
 @new_task
 async def _mirror_leech(client, message, isQbit=False, isLeech=False, sameDir=None, bulk=[]):
     sticker_message = await message.reply_sticker("CAACAgUAAxkBAAEtGvVmubOKcXBCOqf3scvXaZDqF9TzJAACAQADwSQxMUzllWoqwNZvNQQ")

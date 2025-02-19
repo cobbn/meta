@@ -14,7 +14,7 @@ class TelegraphHelper:
         self.short_name = ''.join(SystemRandom().choices(ascii_letters, k=8))
         self.access_token = None
         self.author_name = "WZML-X-ADVANCE"
-        self.author_url = "https://telegram.me/NordBotz"
+        self.author_url = "https://telegram.me/Reaper"
 
     async def create_account(self):
         await self.telegraph.create_account(

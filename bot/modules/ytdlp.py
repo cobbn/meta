@@ -22,7 +22,7 @@ from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.listeners.tasks_listener import MirrorLeechListener
 from bot.helper.ext_utils.help_messages import YT_HELP_MESSAGE
 from bot.helper.ext_utils.bulk_links import extract_bulk_links
-from bot.helper.nordbotz_utils.react_nordbotz import send_react
+from bot.helper.Reaper_utils.react_Reaper import send_react
 
 @new_task
 async def select_format(_, query, obj):
