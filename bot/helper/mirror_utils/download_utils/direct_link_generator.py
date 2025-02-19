@@ -141,7 +141,7 @@ def direct_link_generator(link):
         return antfiles(link)
     elif 'racaty' in domain:
         return racaty(link)
-     elif "swisstransfer.com" in domain:
+    elif "swisstransfer.com" in domain:
         return swisstransfer(link)
     elif '1fichier.com' in domain:
         return fichier(link)
