@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 import platform
 from base64 import b64encode
@@ -45,18 +44,19 @@ PAGE_NO      = 1
 
 
 class MirrorStatus:
-    STATUS_UPLOADING   = "Uᴘʟᴏᴀᴅɪɴɢ"
-    STATUS_DOWNLOADING = "Dᴏᴡɴʟᴏᴀᴅɪɴɢ"
-    STATUS_CLONING     = "Cʟᴏɴᴇ"
-    STATUS_QUEUEDL     = "QᴜᴇᴜᴇDL"
-    STATUS_QUEUEUP     = "QᴜᴇᴜᴇUᴘ"
-    STATUS_PAUSED      = "Pᴀᴜsᴇ"
-    STATUS_ARCHIVING   = "Aʀᴄʜɪᴠᴇ"
-    STATUS_EXTRACTING  = "Exᴛʀᴀᴄᴛ"
-    STATUS_SPLITTING   = "Sᴘʟɪᴛ"
-    STATUS_METADATA    = "Aᴅᴅɪɴɢ Mᴇᴛᴀᴅᴀᴛᴀ Pᴏᴡᴅᴇʀᴇᴅ Bʏ @Nᴏʀᴅ Bᴏᴛᴢ"
-    STATUS_CHECKING    = "CʜᴇᴄᴋUᴘ"
-    STATUS_SEEDING     = "Sᴇᴇᴅq"
+    STATUS_UPLOADING   = "Upload"
+    STATUS_DOWNLOADING = "Download"
+    STATUS_CLONING     = "Clone"
+    STATUS_QUEUEDL     = "QueueDL"
+    STATUS_QUEUEUP     = "QueueUp"
+    STATUS_PAUSED      = "Pause"
+    STATUS_ARCHIVING   = "Archive"
+    STATUS_EXTRACTING  = "Extract"
+    STATUS_SPLITTING   = "Split"
+    STATUS_CHECKING    = "CheckUp"
+    STATUS_SEEDING     = "Seed"
+    STATUS_METADATA    = "Metadata"
+
 
 
 class setInterval:
@@ -116,7 +116,7 @@ def bt_selection_buttons(id_):
         buttons.ibutton("Pincode", f"btsel pin {gid} {pincode}")
     else:
         buttons.ubutton("Select Files", f"{BASE_URL}/app/files/{id_}?pin_code={pincode}")
-    buttons.ibutton("❌", f"btsel rm {gid} {id_}")
+    buttons.ibutton("Cancel", f"btsel rm {gid} {id_}")
     buttons.ibutton("Done Selecting", f"btsel done {gid} {id_}")
     return buttons.build_menu(2)
 
@@ -137,17 +137,16 @@ def handleIndex(index, dic):
             elif index > 0: index = index - len(dic)
         else: break
     return index
-    
 
 def get_progress_bar_string(pct):
     pct = float(str(pct).strip('%'))
     p = min(max(pct, 0), 100)
     cFull = int(p // 8)
     cPart = int(p % 8 - 1)
-    p_str = '●' * cFull
+    p_str = '■' * cFull
     if cPart >= 0:
-        p_str += ['◌', '○', '○', '◎', '◉', '◕', '●'][cPart]
-    p_str += '◌' * (12 - cFull)
+        p_str += ['■', '■', '■', '■', '■', '■', '■'][cPart]
+    p_str += '□' * (12 - cFull)
     return f"[{p_str}]"
 
 
@@ -189,18 +188,18 @@ class EngineStatus:
         if not (version_cache := bot_cache.get('eng_versions')):
             get_all_versions()
             version_cache = bot_cache.get('eng_versions')
-        self.STATUS_ARIA = f"Aʀɪᴀ𝟸 v{version_cache['aria']}"
-        self.STATUS_AIOHTTP = f"AɪᴏHᴛᴛᴘ {version_cache['aiohttp']}"
-        self.STATUS_GD = f"Gᴏᴏɢʟᴇ-Aᴘɪ v{version_cache['gapi']}"
-        self.STATUS_MEGA = f"MᴇɢᴀSᴅᴋ v{version_cache['mega']}"
-        self.STATUS_QB = f"ǫBɪᴛ {version_cache['qbit']}"
-        self.STATUS_TG = f"PʏʀᴏFᴏʀᴋ v{version_cache['pyro']}"
-        self.STATUS_YT = f"Yᴛ-Dʟᴘ v{version_cache['ytdlp']}"
-        self.STATUS_EXT = "ᴘExᴛʀᴀᴄᴛ ᴠ𝟸"
-        self.STATUS_SPLIT_MERGE = f"FғMᴘᴇɢ v{version_cache['ffmpeg']}"
-        self.STATUS_ZIP = f"ᴘ𝟽Zɪᴘ v{version_cache['p7zip']}"
-        self.STATUS_QUEUE = "Sʟᴇᴇᴘ ᴠ𝟶"
-        self.STATUS_RCLONE = f"RCʟᴏɴᴇ {version_cache['rclone']}"
+        self.STATUS_ARIA = f"Aria2 v{version_cache['aria']}"
+        self.STATUS_AIOHTTP = f"AioHttp {version_cache['aiohttp']}"
+        self.STATUS_GD = f"Google-API v{version_cache['gapi']}"
+        self.STATUS_MEGA = f"MegaSDK v{version_cache['mega']}"
+        self.STATUS_QB = f"qBit {version_cache['qbit']}"
+        self.STATUS_TG = f"PyroMulti v{version_cache['pyro']}"
+        self.STATUS_YT = f"yt-dlp v{version_cache['ytdlp']}"
+        self.STATUS_EXT = "pExtract v2"
+        self.STATUS_SPLIT_MERGE = f"ffmpeg v{version_cache['ffmpeg']}"
+        self.STATUS_ZIP = f"p7zip v{version_cache['p7zip']}"
+        self.STATUS_QUEUE = "Sleep v0"
+        self.STATUS_RCLONE = f"RClone {version_cache['rclone']}"
 
 
 def get_readable_message():
@@ -218,14 +217,12 @@ def get_readable_message():
         elapsed = time() - download.message.date.timestamp()
         msg += BotTheme('STATUS_NAME', Name="Task is being Processed!" if config_dict['SAFE_MODE'] and elapsed >= config_dict['STATUS_UPDATE_INTERVAL'] else escape(f'{download.name()}'))
         if download.status() not in [MirrorStatus.STATUS_SPLITTING, MirrorStatus.STATUS_SEEDING, MirrorStatus.STATUS_METADATA]:
-            msg += BotTheme('BAR', Bar=f"{get_progress_bar_string(download.progress())} {download.progress()}")
+            msg += BotTheme('BAR', Bar=f"{get_progress_bar_string(download.progress())}")
+            msg += BotTheme('Speed', Speed=download.speed())
             msg += BotTheme('PROCESSED', Processed=f"{download.processed_bytes()} of {download.size()}")
             msg += BotTheme('STATUS', Status=download.status(), Url=msg_link)
             msg += BotTheme('ETA', Eta=download.eta())
-            msg += BotTheme('SPEED', Speed=download.speed())
-            msg += BotTheme('ELAPSED', Elapsed=get_readable_time(elapsed))
-            msg += BotTheme('ENGINE', Engine=download.eng())
-            msg += BotTheme('STA_MODE', Mode=download.upload_details['mode'])
+            msg += BotTheme('MODE', Mode=download.upload_details['mode'])
             if hasattr(download, 'seeders_num'):
                 try:
                     msg += BotTheme('SEEDERS', Seeders=download.seeders_num())
@@ -247,7 +244,6 @@ def get_readable_message():
 
         msg += BotTheme('USER',
                         User=download.message.from_user.mention(style="html"))
-        msg += BotTheme('ID', Id=download.message.from_user.id)
         if (download.eng()).startswith("qBit"):
             msg += BotTheme('BTSEL', Btsel=f"/{BotCommands.BtSelectCommand}_{download.gid()}")
         msg += BotTheme('CANCEL', Cancel=f"/{BotCommands.CancelMirror}_{download.gid()}")
@@ -283,9 +279,8 @@ def get_readable_message():
         ]:
             up_speed += speed_in_bytes_per_second
 
-    msg += BotTheme('FOOTER')
     buttons = ButtonMaker()
-    buttons.ibutton(BotTheme('REFRESH', Page=f"{PAGE_NO}/{PAGES}"), "status ref")
+    buttons.ibutton(BotTheme('REFRESH'), "status ref")
     if tasks > STATUS_LIMIT:
         if config_dict['BOT_MAX_TASKS']:
             msg += BotTheme('BOT_TASKS', Tasks=tasks, Ttask=config_dict['BOT_MAX_TASKS'], Free=config_dict['BOT_MAX_TASKS']-tasks)
@@ -293,15 +288,11 @@ def get_readable_message():
             msg += BotTheme('TASKS', Tasks=tasks)
         buttons = ButtonMaker()
         buttons.ibutton(BotTheme('PREVIOUS'), "status pre")
-        buttons.ibutton(BotTheme('REFRESH', Page=f"{PAGE_NO}/{PAGES}"), "status ref")
+        buttons.ibutton(BotTheme('REFRESH'), "status ref")
         buttons.ibutton(BotTheme('NEXT'), "status nex")
     button = buttons.build_menu(3)
-    msg += BotTheme('Cpu', cpu=cpu_percent())
-    msg += BotTheme('FREE', free=get_readable_file_size(disk_usage(config_dict['DOWNLOAD_DIR']).free), free_p=round(100-disk_usage(config_dict['DOWNLOAD_DIR']).percent, 1))
-    msg += BotTheme('Ram', ram=virtual_memory().percent)
+    msg += BotTheme('FREE', free=get_readable_file_size(disk_usage(config_dict['DOWNLOAD_DIR']).free))
     msg += BotTheme('uptime', uptime=get_readable_time(time() - botStartTime))
-    msg += BotTheme('DL', DL=get_readable_file_size(dl_speed))
-    msg += BotTheme('UL', UL=get_readable_file_size(up_speed))
     return msg, button
 
 
@@ -355,8 +346,8 @@ def is_share_link(url):
     return bool(re_match(r'https?:\/\/.+\.gdtot\.\S+|https?:\/\/(.+\.filepress|filebee|appdrive|gdflix|www.jiodrive)\.\S+', url))
 
 
-def is_index_link(url):
-     return bool(re_match(r'https?:\/\/.+\/\d+\:\/', url))
+def is_index_link(url): 
+     return bool(re_match(r'https?:\/\/.+\/\d+\:\/', url))    
 
 
 def is_mega_link(url):
@@ -504,13 +495,13 @@ async def compare_versions(v1, v2):
 async def get_stats(event, key="home"):
     user_id = event.from_user.id
     btns = ButtonMaker()
-    btns.ibutton('◀️', f'wzmlx {user_id} stats home')
+    btns.ibutton('Back', f'wzmlx {user_id} stats home')
     if key == "home":
         btns = ButtonMaker()
-        btns.ibutton('Bᴏᴛ Sᴛᴀᴛs', f'wzmlx {user_id} stats stbot')
-        btns.ibutton('Os Sᴛᴀᴛs', f'wzmlx {user_id} stats stsys')
-        btns.ibutton('Rᴇᴘᴏ Sᴛᴀᴛs', f'wzmlx {user_id} stats strepo')
-        btns.ibutton('Bᴏᴛ Lɪᴍɪᴛs', f'wzmlx {user_id} stats botlimits')
+        btns.ibutton('Bot Stats', f'wzmlx {user_id} stats stbot')
+        btns.ibutton('OS Stats', f'wzmlx {user_id} stats stsys')
+        btns.ibutton('Repo Stats', f'wzmlx {user_id} stats strepo')
+        btns.ibutton('Bot Limits', f'wzmlx {user_id} stats botlimits')
         msg = "⌬ <b><i>Bot & OS Statistics!</i></b>"
     elif key == "stbot":
         total, used, free, disk = disk_usage('/')
@@ -534,10 +525,10 @@ async def get_stats(event, key="home"):
             disk_bar=get_progress_bar_string(disk),
             disk_read=f"{get_readable_file_size(disk_io.read_bytes)} ({get_readable_time(disk_io.read_time / 1000)})"
             if disk_io
-            else "Aᴄᴄᴇss Dᴇɴɪᴇᴅ",
+            else "Access Denied",
             disk_write=f"{get_readable_file_size(disk_io.write_bytes)} ({get_readable_time(disk_io.write_time / 1000)})"
             if disk_io
-            else "Aᴄᴄᴇss Dᴇɴɪᴇᴅ",
+            else "Access Denied",
             disk_t=get_readable_file_size(total),
             disk_u=get_readable_file_size(used),
             disk_f=get_readable_file_size(free),
@@ -585,12 +576,12 @@ async def get_stats(event, key="home"):
                 CL = ('∞' if (val := config_dict['CLONE_LIMIT']) == '' else val),
                 ML = ('∞' if (val := config_dict['MEGA_LIMIT']) == '' else val),
                 LL = ('∞' if (val := config_dict['LEECH_LIMIT']) == '' else val),
-                TV  = ('Dɪsᴀʙʟᴇᴅ' if (val := config_dict['TOKEN_TIMEOUT']) == '' else get_readable_time(val)),
-                UTI = ('Dɪsᴀʙʟᴇᴅ' if (val := config_dict['USER_TIME_INTERVAL']) == 0 else get_readable_time(val)),
+                TV  = ('Disabled' if (val := config_dict['TOKEN_TIMEOUT']) == '' else get_readable_time(val)),
+                UTI = ('Disabled' if (val := config_dict['USER_TIME_INTERVAL']) == 0 else get_readable_time(val)),
                 UT = ('∞' if (val := config_dict['USER_MAX_TASKS']) == '' else val),
                 BT = ('∞' if (val := config_dict['BOT_MAX_TASKS']) == '' else val),
         )
-    btns.ibutton('❌', f'wzmlx {user_id} close')
+    btns.ibutton('Close', f'wzmlx {user_id} close')
     return msg, btns.build_menu(2)
 
 
