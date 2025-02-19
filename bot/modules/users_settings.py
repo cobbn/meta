@@ -275,9 +275,6 @@ async def update_user_settings(query, key=None, edit_type=None, edit_mode=None, 
 
 
 async def user_settings(client, message):
-    sticker_message = await message.reply_sticker("CAACAgIAAxkBAAEtGzNmub75STO9jVh_xcnBhkXFr-GVpAACdQ8AAh4V8UuN549XMF_AnzUE")
-    await asyncio.sleep(1)
-    await sticker_message.delete()
     await send_react(message)
     if len(message.command) > 1 and (message.command[1] == '-s' or message.command[1] == '-set'):
         set_arg = message.command[2].strip() if len(message.command) > 2 else None

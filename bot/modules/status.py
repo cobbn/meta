@@ -15,9 +15,6 @@ from bot.helper.Reaper_utils.react_Reaper import send_react
 
 @new_task
 async def mirror_status(_, message):
-    sticker_message = await message.reply_sticker("CAACAgUAAxkBAAEtHbNmujgYBmyBJnKtdAtKlmIOKcobWgACNwUAAra8-Vdx1bvDO-KhtjUE")
-    await asyncio.sleep(1)
-    await sticker_message.delete()
     await send_react(message)
     async with download_dict_lock:
         count = len(download_dict)

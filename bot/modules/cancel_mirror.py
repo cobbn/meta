@@ -12,9 +12,6 @@ from bot.helper.telegram_helper import button_build
 
 
 async def cancel_mirror(_, message):
-    sticker_message = await message.reply_sticker("CAACAgIAAxkBAAEtGw5mubhIAX-eGsjtaa5J8XGIUzKrawACzQ8AArmr6Upe0YrDKbm3ZzUE")
-    await asyncio.sleep(1) # set Custom time
-    await sticker_message.delete()
     user_id = message.from_user.id
     msg = message.text.split('_', maxsplit=1)
     if len(msg) > 1:
