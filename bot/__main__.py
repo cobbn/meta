@@ -267,9 +267,9 @@ async def main():
         BotCommands.HelpCommand) & CustomFilters.authorized & ~CustomFilters.blacklisted))
     bot.add_handler(MessageHandler(stats, filters=command(
         BotCommands.StatsCommand) & CustomFilters.authorized & ~CustomFilters.blacklisted))
-    LOGGER.info(f"WZML-X Advance Bot[@{bot_name}] Started!")
+    LOGGER.info(f"Reaper Advance Bot[@{bot_name}] Started!")
     if user:
-        LOGGER.info(f"WZ's User [@{user.me.username}] Ready!")
+        LOGGER.info(f"Reaper's User [@{user.me.username}] Ready!")
     signal(SIGINT, exit_clean_up)
 
 async def stop_signals():
